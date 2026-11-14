@@ -112,7 +112,9 @@ cargo run -- --repair-fit activity.fit activity-fixed.fit
 
 ## Hardware test CLI
 
-These commands exercise the real device without starting the GUI:
+These commands exercise the real device without starting the GUI. Replace
+`AA:BB:CC:DD:EE:FF` with your BSC200's address and `1234567890` with an
+activity ID from the list:
 
 ```bash
 # Scan / read version and battery

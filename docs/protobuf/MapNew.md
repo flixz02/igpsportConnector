@@ -1,7 +1,6 @@
-# MapNew (`com.igpsport.blelib` / obfuscated `defpackage`)
+# MapNew (new map management, `com.igpsport.blelib`)
 
-_Extracted from `app/src/main/java/defpackage/MapNew.java` (service 22,
-`MAP_NEW`)._
+_Extracted from the iGPSPORT Ride Android app (service 22, `MAP_NEW`)._
 
 ## Enums
 

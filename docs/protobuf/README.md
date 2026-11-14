@@ -1,4 +1,4 @@
-# Protobuf schema extracted from the decompiled app
+# Protobuf schema extracted from the iGPSPORT Ride Android app
 
 Field numbers come from the generated `*_FIELD_NUMBER` constants; types come from the generated getters. All messages are proto2 syntax with `optional` scalar fields (presence tracked) and `repeated` list fields; the Java classes are protobuf-lite and the wire encoding is standard protobuf.
 

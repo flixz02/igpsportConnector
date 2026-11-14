@@ -1,8 +1,9 @@
 # iGPSPORT BSC200 reverse-engineering notes
 
 This directory documents the Bluetooth LE protocol used by the iGPSPORT BSC200
-bike computer, reconstructed from the decompiled `iGPSPORT Ride` Android app
-(v8.06.28) in the parent `igpsDecomp` workspace.
+bike computer, reconstructed by reverse-engineering the `iGPSPORT Ride`
+Android app (v8.06.28). The decompiled app itself is not included in this
+repository.
 
 | File | Description |
 |---|---|

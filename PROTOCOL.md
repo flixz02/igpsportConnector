@@ -1,8 +1,8 @@
 # iGPSPORT BSC200 BLE protocol
 
-Documentation reconstructed from the decompiled `iGPSPORT Ride` Android app in
-the parent `igpsDecomp` workspace. The Rust/egui application, protocol
-reference, codec and protobuf schemas live in this repository.
+Documentation reconstructed by reverse-engineering the `iGPSPORT Ride` Android
+app. The Rust/egui application, protocol reference, codec and protobuf schemas
+live in this repository; the decompiled app itself is not included.
 
 - **[docs/BSC200_BLE_PROTOCOL.md](docs/BSC200_BLE_PROTOCOL.md)** — full
   protocol reference (GATT layout, 20-byte frames, CRC-8/MAXIM, command

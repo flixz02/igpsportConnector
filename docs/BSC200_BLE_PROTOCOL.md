@@ -1,28 +1,18 @@
 # iGPSPORT BSC200 — Bluetooth LE protocol
 
-Reconstructed from the decompiled Android app **iGPSPORT Ride 8.06.28**
-(`com.qiwu.worldwide.ride`, BLE SDK in `com.igpsport.blelib`) in the parent
-`igpsDecomp` workspace. Paths below refer to that workspace.
+Reconstructed by reverse-engineering the Android app **iGPSPORT Ride 8.06.28**
+(`com.qiwu.worldwide.ride`, BLE SDK in `com.igpsport.blelib`). The decompiled
+app itself is not included in this repository.
 
-Everything here is derived from the app's own code. The main sources are:
-
-| Area | Source file(s) |
-|---|---|
-| GATT services / characteristics | `app/src/main/java/com/igpsport/blelib/manager/*.java` |
-| 20-byte frame header | `pbfactory/BaseHead20Bytes.java`, `pbfactory/BaseFactory.java`, `pbfactory/ConfirmCommand.java`, `pbfactory/TransmitCompleteCommand.java` |
-| CRC-8 | `utils/CRC8.java` |
-| CRC-16 (firmware only) | `utils/CRC16Utils.java` |
-| Request/response engine | `BaseCommand.java`, `IGPDeviceManager.java` |
-| Command service abstraction | `pbfactory/*ServiceFactory.java` |
-| Payload schemas | `bean/*.java` (generated protobuf-lite) |
-| File transfer | `devicemanager/SyncActivityDelegate.java`, `OtherDelegate.java`, `RoutePlanningDelegate.java`, `FirmwareUpdateDelegate.java` |
-| BSC200 feature checks | `config/DeviceConstant.java`, `globalapp/devicemodule/pagesetting/**` |
+Everything here is derived from the app's GATT manager, frame/pbfactory
+classes, command engine, file-transfer delegates and generated protobuf
+beans. Those reverse-engineering inputs are not part of this repository.
 
 A dependency-free reference implementation of the framing layer is in
 [`reference_codec.py`](reference_codec.py). Full extracted protobuf schemas
-are in [`protobuf/`](protobuf/). A complete cross-platform Rust/egui
-implementation (route import + activity export) is in the parent directory;
-see [`../README.md`](../README.md).
+are in [`protobuf/`](protobuf/). The cross-platform Rust/egui application
+(route import + activity export) is the repository root; see
+[`../README.md`](../README.md).
 
 > **Confidence note.** The transport framing, CRCs, service IDs, operation IDs
 > and payload field numbers are directly readable in the code and are high
@@ -275,7 +265,7 @@ the air.
 | 19 | `LOG` | Device logs | `Log` |
 | 20 | `THEME` | Themes / backgrounds | `Theme` |
 | 21 | `FILE_OPERATION` | Generic file upload (routes, workouts, firmware, maps, AGPS, themes) | `GeneralFileOperation` |
-| 22 | `MAP_NEW` | New map management (navigation maps) | `defpackage/MapNew` |
+| 22 | `MAP_NEW` | New map management (navigation maps) | `MapNew` |
 | 23 | `ROUTE_BOOK` | Electronic road books | `RouteBook` |
 | 24 | `STAGE` | Segments/stages | `Stage` |
 | 25 | `TRAINING_PLAN` | Training schedule | `TrainPlan` |
@@ -1029,9 +1019,9 @@ For generation 4, the app also resets per-command file state and may use the
 
 ## 11. BSC200 hardware validation notes
 
-The following was observed on a real BSC200 (address `AA:BB:CC:DD:EE:FF`,
-reported versions `BLE 144`, `proto 101`, `hw 100`, compile time
-`Oct 21 2024 15:29:05`) using this repository's Rust implementation.
+The following was observed on a real BSC200 (reported versions `BLE 144`,
+`proto 101`, `hw 100`, compile time `Oct 21 2024 15:29:05`) using this
+repository's Rust implementation.
 
 ### 11.1 Connection and binding
 
@@ -1039,11 +1029,10 @@ reported versions `BLE 144`, `proto 101`, `hw 100`, compile time
   write on the command's data characteristic. The version request
   (`DEV_VER_INFO`, service 17/op 2) answered immediately; no gen-3 fallback
   was required on this unit.
-* The device is **app-bound**. `BLE BOND_INFO (service 10, op 1)` returned a
-  member ID (`REDACTED` in this case) and
-  `CONNECT_STATUS (service 10, op 3)` with `status = 1` and the same member ID
-  returned confirmation status 0. File operations worked after this
-  handshake.
+* The device is **app-bound**. `BLE BOND_INFO (service 10, op 1)` returned an
+  opaque member ID and `CONNECT_STATUS (service 10, op 3)` with `status = 1`
+  and the same member ID returned confirmation status 0. File operations
+  worked after this handshake.
 * The device has **no standard Battery GATT service** (`0x180F` is absent), so
   battery level cannot be read over GATT on this unit.
 * The device periodically emits an unsolicited `BACK` notification on
@@ -1149,7 +1138,7 @@ For `record` messages (global message 20) the device uses:
 Heart rate (3), cadence (4), power (7) and temperature (13) are also present.
 Altitude is invalid (`0xFFFF`) for the first point(s) of a recording; skip
 rather than emitting `13107 m`. Applying these scales gives plausible
-elevations (around 190–215 m for the test test rides) instead of raw field
+elevations (around 190–215 m for the test rides) instead of raw field
 values.
 
 When exporting to GPX, the values are written as track-point extensions:
