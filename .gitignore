@@ -1,4 +1,45 @@
-/target
-*.cnx
+# Rust build output
+target/
+*.rs.bk
+
+# Generated activity / route data
 *.fit
 *.gpx
+*.cnx
+
+# Android / Gradle build output
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+*.apks
+*.xapk
+*.dex
+*.class
+*.smali
+*.iml
+.externalNativeBuild/
+.cxx/
+
+# IDE / editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python bytecode and virtual environments (docs tools)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak

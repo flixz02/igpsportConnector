@@ -7,7 +7,7 @@ written in Rust with an `egui` GUI.
 * **Windows 10/11** uses the native WinRT Bluetooth stack through `btleplug`.
 
 It implements the protocol documented in
-[`../docs/BSC200_BLE_PROTOCOL.md`](../docs/BSC200_BLE_PROTOCOL.md), with a focus
+[`docs/BSC200_BLE_PROTOCOL.md`](docs/BSC200_BLE_PROTOCOL.md), with a focus
 on two workflows:
 
 * **Import a GPX route** by generating a native iGPSPORT `.cnx` file locally
@@ -15,13 +15,17 @@ on two workflows:
 * **Export recorded activities** by downloading FIT files from the device and
   saving them as FIT and/or GPX.
 
+The protocol documentation now lives in this repository. Start with
+[`PROTOCOL.md`](PROTOCOL.md), which links to the full reference, codec and
+protobuf schemas under [`docs/`](docs/README.md).
+
 ## Status
 
 This implementation has been validated against a physical BSC200
 (`BLE 144`, `proto 101`, `hw 100`). GPX route import (CNX generation and
 upload), route activation, activity listing, FIT download and FIT→GPX export
 all work on real hardware. See §11 of
-[`../docs/BSC200_BLE_PROTOCOL.md`](../docs/BSC200_BLE_PROTOCOL.md) for the
+[`docs/BSC200_BLE_PROTOCOL.md`](docs/BSC200_BLE_PROTOCOL.md) for the
 hardware findings.
 
 The Linux backend has been validated on physical BSC200 hardware. The Windows
